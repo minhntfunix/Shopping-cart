@@ -1,0 +1,36 @@
+* {
+    box-sizing: border-box;
+    
+  }
+
+h1 {
+    text-align: center;
+}
+
+input {
+    background-color: #CCC;
+    border-radius: 10px;
+    padding: 5px 5px;
+    text-align: center;
+    font-weight: bold;
+    
+
+}
+input[type="number"]
+{
+    width: 5em; 
+}
+table {
+   
+    border-collapse: collapse;
+}
+
+th {
+    background-color: #CCC;
+}
+
+th, td {
+    border: 1px #999 solid;
+    padding: 5px 10px;
+    text-align: center;
+}

@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<!-- Popper JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <title>Shopping cart</title>
+    <link rel="stylesheet"  href="cart.css">
+
+    <style>
+         table tr td img {
+            width: 100px;
+            height: 100px;
+        }
+
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="row ">
+
+    <div class="col">
+
+    <h1>Product</h1>
+    <table border="1" id="list" cellpading="1" >
+    <tr>
+        <th> Name </th>
+        <th>Image </th>
+        <th>Quantity</th>
+        <th>Unit price</th>
+    </tr>
+    <tr>
+        <td>Iphone 12 </td>
+        <td><img src="1.bmp"> </td>
+        <td><input type="number" min="1" value="1" ></td>
+        <td>2700</td>
+        <td><button onclick="Add(this)">Add to cart</button>  </td>
+    </tr>
+
+    <tr>
+        <td>Iphone 11</td>
+        <td><img src="2.bmp"  > </td>
+        <td><input type="number" min="1" value="1"></td>
+        <td>1500</td>
+        <td><button onclick="Add(this)">Add to cart</button>  </td>
+    </tr>
+
+    <tr>
+        <td>Ipad Air 4</td>
+        <td><img src="3.bmp"  > </td>
+        <td><input type="number" min="1" value="1" ></td>
+        <td>1200</td>
+        <td><button onclick="Add(this)">Add to cart</button>  </td>
+    </tr>
+
+    <tr>
+        <td>Samsung Galaxy Tab</td>
+        <td><img src="4.bmp"  > </td>
+        <td><input type="number" min="1" value="1"></td>
+        <td>1700</td>
+
+        <td><button onclick="Add(this)">Add to cart</button>  </td>
+    </tr>
+
+    </table>
+    </div>
+
+    <div class="col">
+    <h1>Your Cart</h1>
+    <table border="1" cellpadding="1" >
+        <th> Name </th>
+        <th>Image </th>
+        <th>Quantity</th>
+        <th>Unit price</th>
+        <th>Total </th>
+    <tbody id="cart">
+
+    </tbody>
+
+    <tr>
+        <th colspan="2">
+            Total Amount: 
+        </th>
+        <th id="tong" colspan="4"></th>
+    </tr>
+    </table>
+    </div>
+</div>
+</div>
+</body>
+
+<script type="text/javascript">
+    function Add(x){
+        var tr= x.parentElement.parentElement;
+        var td= tr.children
+        var pname= td[0].innerText;
+        var pimg= td[1].children[0].src;
+        var sl= td[2].children[0].value;
+        var price= td[3].innerHTML;
+        
+        var tr1= document.querySelectorAll("#cart tr ")
+        var cont=1;
+        
+        for(i=0;i<tr1.length;i++){
+            var td= tr1[i].getElementsByTagName("td");
+            var sp_name= td[0].innerText;
+            var sp_sl= td[2].innerText;
+            if (sp_name == pname){
+               
+
+                td[2].innerText= parseInt(sl) +  parseInt(sp_sl)
+                td[4].innerText= parseInt(td[2].innerText) * parseInt(td[3].innerText)
+                console.log(sl);
+                console.log(sp_sl);
+                cont=0;
+                break;
+            }
+            
+           
+        }
+        if (cont==1) {
+       
+
+        //tạo td cho name
+        var cart_tr= document.createElement("tr");
+        var cart_td_name= document.createElement("td");
+        var cart_name= document.createTextNode(pname);
+        
+        cart_td_name.appendChild(cart_name);
+        cart_tr.appendChild(cart_td_name);
+
+        //tạo td cho img
+        
+        var cart_td_img= document.createElement("td");
+        var cart_img= document.createElement("img");
+        cart_img.src=pimg;
+        cart_td_img.appendChild(cart_img);
+        cart_tr.appendChild(cart_td_img)
+
+        //tạo td cho sl
+      
+      var cart_td_sl= document.createElement("td");
+        var cart_sl= document.createTextNode(sl);
+        
+        cart_td_sl.appendChild(cart_sl);
+        cart_tr.appendChild(cart_td_sl);
+
+        //tạo td cho don giá
+
+        var cart_td_price= document.createElement("td");
+        var cart_price= document.createTextNode(price);
+        
+        cart_td_price.appendChild(cart_price);
+        cart_tr.appendChild(cart_td_price);
+
+       
+        //tạo td cho tien
+        var tien= sl* price ;
+        var cart_td_tien= document.createElement("td");
+        var cart_tien= document.createTextNode(tien);
+        
+        cart_td_tien.appendChild(cart_tien);
+        cart_tr.appendChild(cart_td_tien);
+
+        
+
+        //tạo td cho button xóa
+        var cart_td_button= document.createElement("td");
+        var del_button= document.createElement("input");
+        del_button.type="button";
+        del_button.value="Delete";
+        cart_td_button.appendChild(del_button);
+        del_button.setAttribute("onclick","cart_delete(this)")
+        cart_tr.appendChild(cart_td_button);
+
+
+        var cart= document.getElementById("cart");
+        cart.appendChild(cart_tr)
+        }
+        tongdonhang();
+    }
+    
+    function cart_delete(x){
+        var tr=x.parentElement.parentElement
+        tr.remove();
+        tongdonhang();
+    }
+
+    function tongdonhang(){
+        var tr= document.querySelectorAll("#cart tr ")
+        console.log(tr);
+        var tongtien=0
+        for(i=0;i<tr.length;i++){
+            var td= tr[i].getElementsByTagName("td");
+          
+            tongtien += parseInt(td[4].innerText);
+           
+        }
+        console.log(tongtien);
+        var total= document.getElementById("tong")
+        total.innerText= tongtien;
+        
+    }
+</script> 
+</html>
